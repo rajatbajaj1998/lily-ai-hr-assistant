@@ -10,16 +10,6 @@ It integrates with **n8n** for workflow automation and supports contextual respo
 
 ---
 
-## 🚀 Features
-- **Chat Interface** – Ask HR-related questions in plain language.
-- **Contextual HR Knowledge Base** – Powered by LLM (Groq/GPT) via n8n.
-- **UI Triggers from Chat** – Open calendar or notifications directly via chat commands.
-- **Quick HR Summaries** – Sidebar dropdowns show leave balances, payroll info, HR contacts, and 24×7 HR helpline.
-- **Fallback Mode** – Local canned responses if backend is unavailable.
-- **Popular Questions** – Clickable buttons for frequent queries.
-
----
-
 ## 🛠 Tech Stack
 - **Frontend:** React (Figma Make export), TailwindCSS
 - **Backend Automation:** n8n workflow automation
@@ -27,6 +17,7 @@ It integrates with **n8n** for workflow automation and supports contextual respo
 - **Hosting:** Figma Make Web Hosting
 - **Integrations:** Custom Webhooks, Calendar overlay, Notifications panel
 
+---
 
 ## 📌 Features
 
