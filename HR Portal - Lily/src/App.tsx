@@ -7,7 +7,7 @@ import { CalendarOverlay } from './components/CalendarOverlay';
 import { Button } from './components/ui/button';
 import { Input } from './components/ui/input';
 
-const N8N_CHAT_URL = "http://localhost:5678/webhook/hr/chat";
+const N8N_CHAT_URL = "https://b8cdae46660e.ngrok-free.app/webhook/hr/chat";
 
 export default function App() {
   const [showCalendar, setShowCalendar] = useState(false);
