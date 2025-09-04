@@ -1,0 +1,258 @@
+{
+  "name": "HR chat",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "hr/chat",
+        "responseMode": "lastNode",
+        "options": {
+          "responseContentType": "application/json",
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "https://asset-gong-07032350.figma.site"
+              },
+              {
+                "name": "Access-Control-Allow-Methods",
+                "value": "POST, OPTIONS"
+              },
+              {
+                "name": "Access-Control-Allow-Headers",
+                "value": "Content-Type, Authorization"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -112,
+        0
+      ],
+      "id": "5ea73e66-b16f-421a-9e86-d38912ad69b3",
+      "name": "Webhook",
+      "webhookId": "6e7de8c6-6221-4f95-81e0-e21cbf92693a"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.input }}",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "You are Lily, a friendly, knowledgeable HR assistant of Zenafide. \nAlways respond to whatever the user types—even greetings like “Hi”.\nIf the request is unclear, ask a specific clarifying question.\nDo NOT say phrases like “you didn’t ask a question.”\nKeep answers concise, factual, and HR-focused (leave, benefits, payroll, policies)."
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        416,
+        0
+      ],
+      "id": "8a83f294-736f-4f8e-aa2d-b4d31ea2a4e0",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "options": {
+          "maxTokens": 300,
+          "responseFormat": "text",
+          "temperature": 0.7,
+          "maxRetries": 1
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        416,
+        496
+      ],
+      "id": "c2e923b8-57e3-4ab9-8598-f5ce0aa09ae8",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "rtezMx4zuz7yl9ws",
+          "name": "OpenAi account"
+        }
+      },
+      "notes": "You are Lily, a warm and helpful HR assistant for employees.\nAlways answer concisely, in plain language, and be friendly.\nIf a question relates to HR policies, benefits, payroll, or time off, give specific guidance.\nSuggest exactly one helpful follow-up question at the end of each answer."
+    },
+    {
+      "parameters": {
+        "model": "llama-3.3-70b-versatile",
+        "options": {
+          "maxTokensToSample": 2048,
+          "temperature": 0.5
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        416,
+        272
+      ],
+      "id": "93499435-33ae-4b3f-9a8a-5b36c39e8c9d",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "z8J6gWvRy5xACt3S",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1b24ec07-d4f2-442a-abb7-800908f9cd8b",
+              "name": "=input",
+              "value": "={{ $json.body?.message }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        192,
+        0
+      ],
+      "id": "a3e19cf2-1ffe-4b77-bbf0-ee196e683ac0",
+      "name": "Set (input)"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7e270776-2de0-407a-8288-6671a845e4aa",
+              "name": "answer",
+              "value": "={{$json.text}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        768,
+        0
+      ],
+      "id": "b7861b38-ae66-4d77-ae21-15f8f9599c9f",
+      "name": "Set (output)"
+    },
+    {
+      "parameters": {
+        "content": "Overview:\nThis n8n workflow powers Lily, the HR self-service chatbot in the web app. When a user sends a message, it’s sent via a webhook to n8n, where the text is mapped and passed into a Large Language Model (Groq). The LLM generates an HR-focused response based on Lily’s system prompt, and the workflow formats this reply into JSON before returning it to the web app. This enables employees to get instant, consistent answers on HR topics like leave, benefits, and policies directly from the chat interface.",
+        "height": 416
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -512,
+        -96
+      ],
+      "id": "61b98c4c-06db-46c5-a551-f25847bfc88a",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "\nOther possible LLM options -->",
+        "height": 80,
+        "width": 256
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        64,
+        496
+      ],
+      "id": "1c81e0bd-f222-47f3-882b-ff8b3f55b740",
+      "name": "Sticky Note1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        []
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Set (output)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Set (input)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set (input)": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "ecb95bd4-9af6-43fb-8ec4-e11efdc7fdb7",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0cdf5912941bc26adda77768829077dd280c39052ece230ef3ba9b308fb5c5ce"
+  },
+  "id": "0fKzWN0wY78K4bNg",
+  "tags": []
+}
