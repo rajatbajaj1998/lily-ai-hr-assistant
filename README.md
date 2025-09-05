@@ -6,7 +6,7 @@ It integrates with **n8n** for workflow automation and supports contextual respo
 ---
 
 ## Webapp Link
-https://asset-gong-07032350.figma.site/
+HR CHATBOT LILY - https://asset-gong-07032350.figma.site/
 
 
 ---
